@@ -237,11 +237,11 @@ const Home: React.FC = () => {
         <div className="entry">
           <div className="checkbox-container">
             <input className="checkbox-input" type="checkbox" id="sunbeltNetwork" name="networkParameter" checked={sunbeltNetwork} onChange={() => setSunbeltNetwork(!sunbeltNetwork)} />
-            <label className="checkbox-label" htmlFor="sunbeltNetwork">Enable Sunbelt Network collection</label>
+            <label className="checkbox-label" htmlFor="sunbeltNetwork">Enable Sunbelt Network Collection</label>
           </div>
           <div className="checkbox-container">
             <input className="checkbox-input" type="checkbox" id="synergy" name="networkParameter" checked={synergy} onChange={() => setSynergy(!synergy)} />
-            <label className="checkbox-label" htmlFor="synergy">Enable VR collection </label>
+            <label className="checkbox-label" htmlFor="synergy">Enable VR Collection </label>
           </div>
         </div>
 
