@@ -59,6 +59,7 @@ class AppUpdater {
     autoUpdater.logger = log;
     this.setupListeners();
     autoUpdater.checkForUpdatesAndNotify();
+    console.log("")
   }
 
   setupListeners() {
