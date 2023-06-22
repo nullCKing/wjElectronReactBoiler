@@ -241,7 +241,7 @@ const Home: React.FC = () => {
           </div>
           <div className="checkbox-container">
             <input className="checkbox-input" type="checkbox" id="synergy" name="networkParameter" checked={synergy} onChange={() => setSynergy(!synergy)} />
-            <label className="checkbox-label" htmlFor="synergy">Enable .... collection </label>
+            <label className="checkbox-label" htmlFor="synergy">Enable VR collection </label>
           </div>
         </div>
 

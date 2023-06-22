@@ -292,7 +292,7 @@ class VRScraper:
                 biz_dict = {'name': name, 'askingprice': "", 'cash_flow': "", 'grossrev': "", 'industry': "", 'down_payment': "",
                                 'Franchise': "",'financing': "", 'inventory': "" , 'URL': "", 'location': "", 'ID': id}
                 information = soup.find('ul',  {"class": 'search-result-item-list'})
-
+                
                 # grabs all li objects that contain the information in a span tag
                 reference_li = information.find('li', {"class": 'search-result-item-list__reference'})
                 location_li = information.find('li', {"class": 'search-result-item-list__location'})
