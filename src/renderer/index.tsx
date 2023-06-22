@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import IntroScreen from './IntroScreen';
+import { firebaseApp, db } from '../main/firebase';
 
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);

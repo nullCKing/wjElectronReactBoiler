@@ -1,0 +1,75 @@
+.menu{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	width: 200px;
+	height: 60px;
+	border-radius: 20px;
+	background-color: white;
+	box-shadow: 0 0 30px rgba(176, 113, 140, 0.35);
+}
+.menu__bg{
+	position: relative;
+	width: 35px;
+	height: 35px;
+	overflow: hidden;
+	background-color: #ffffff;
+	cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.menu__icon{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	object-fit: contain;
+	z-index: 1000;
+}
+.big{
+	width: 50px;
+	height: 50px;
+}
+@keyframes bg-1 {
+	0%{ top: -300%; }
+	100%{ top: 0%; }
+}
+@keyframes bg-2 {
+	0%{ top: 20%; left: 20%}
+	25%{ top: 80%; left: 80%;}
+	50%{ top: 80%; left: 20%;}
+	75%{ top: 30%; left: 80%;}
+}
+@keyframes an {
+	0%{ width: 100%; height: 100%;}
+	100%{ width: 100%; height: 100%; }
+}
+
+.menu__icon--hoverable {
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
+  .menu__icon--hoverable:hover {
+    transform: scale(1.2); /* scales the icon up */
+    color: white; /* changes the color on hover */
+    background-color: #217346; /* changes the background color on hover */
+  }
+
+  .menu__icon, .menu__icon--hoverable {
+    transition: transform 0.3s ease-in-out;
+}
+
+.menu__icon:hover, .menu__icon--hoverable:hover {
+    transform: scale(1.2); /* scales the icon up */
+}
+
+.menu__icon--hoverable {
+    color: #217346; 
+    background-color: white;
+}
+
+.menu__icon--hoverable:hover {
+    color: white; /* changes the color on hover */
+    background-color: #217346; /* changes the background color on hover */
+}

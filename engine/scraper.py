@@ -1,6 +1,8 @@
 import sys
 import os
 import json
+import random
+import time
 
 def create_file(directory, state_checkboxes, industry_checkboxes, unlisted_industry, unlisted_location, unlisted_price, sunbelt_network, synergy,
     minGross_revenue,
@@ -9,7 +11,8 @@ def create_file(directory, state_checkboxes, industry_checkboxes, unlisted_indus
     maxCash_flow,
     minListing_price,
     maxListing_price):
-    with open(os.path.join(directory, 'your_file.txt'), 'w') as f:
+    timmy = time.ctime()
+    with open(os.path.join(directory, '{timmy}.txt'), 'a') as f: # 'a' for appending instead of 'w' for writing
         if state_checkboxes:
             f.write("State Checkboxes:\n")
             f.write(json.dumps(state_checkboxes))
@@ -32,18 +35,31 @@ def create_file(directory, state_checkboxes, industry_checkboxes, unlisted_indus
         f.write("\n")
         f.write("Synergy:\n")
         f.write(str(synergy))
+        f.write("\n")
         f.write("MinGross:\n")
         f.write(str(minGross_revenue))
+        f.write("\n")
         f.write("MaxGross:\n")
         f.write(str(maxGross_revenue))
+        f.write("\n")
         f.write("MinCashFlow:\n")
         f.write(str(minCash_flow))
+        f.write("\n")
         f.write("MaxCashFlow:\n")
         f.write(str(maxCash_flow))
+        f.write("\n")
         f.write("MinListingPrice:\n")
         f.write(str(minListing_price))
+        f.write("\n")
         f.write("MaxListingPrice:\n")
         f.write(str(maxListing_price))
+        f.write("\n")
+        f.write("Random number:\n")
+        f.write(str(random.randint(0, 100)))  # Prints a random integer between 0 and 100
+        f.write("\n")
+        f.write("Current Information:\n")
+        f.write(time.ctime()) # Prints current date and time
+        f.write("\n")
 
 if __name__ == "__main__":
     if len(sys.argv) >= 14:
@@ -61,21 +77,27 @@ if __name__ == "__main__":
         maxCash_flow = json.loads(sys.argv[12])
         minListing_price = json.loads(sys.argv[13])
         maxListing_price = json.loads(sys.argv[14])
-        create_file(directory, 
-            state_checkboxes, 
-            industry_checkboxes, 
-            unlisted_industry, 
-            unlisted_location, 
-            unlisted_price, 
-            sunbelt_network, 
-            synergy, 
-            minGross_revenue,
-            maxGross_revenue,
-            minCash_flow,
-            maxCash_flow,
-            minListing_price,
-            maxListing_price),
+
+        start_time = time.time()
+        while True:
+            create_file(directory, 
+                        state_checkboxes, 
+                        industry_checkboxes, 
+                        unlisted_industry, 
+                        unlisted_location, 
+                        unlisted_price, 
+                        sunbelt_network, 
+                        synergy, 
+                        minGross_revenue,
+                        maxGross_revenue,
+                        minCash_flow,
+                        maxCash_flow,
+                        minListing_price,
+                        maxListing_price)
+            time.sleep(30) # Waits for 30 seconds before next iteration
+
+            # Break the loop if 2 minutes (120 seconds) have passed
+            if time.time() - start_time > 120:
+                break
     else:
         print("Insufficient arguments given.")
-    
-    
