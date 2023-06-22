@@ -179,8 +179,8 @@
     "webpack-merge": "^5.9.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "WJ Partners - Brokerage Search Tool",
+    "appId": "org.erb.WJPartners",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
