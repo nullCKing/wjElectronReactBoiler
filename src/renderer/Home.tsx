@@ -270,7 +270,7 @@ const Home: React.FC = () => {
           </div>
           <div className="industry-tile" style={{ ...secondtileStyle, display: 'flex', flexDirection: 'column' }}>
             <div className="button-container">
-              <button onClick={handleSelectAllIndustries}>Hi Mom! Select/Deselect All</button>
+              <button onClick={handleSelectAllIndustries}>Hi Mom,, Select/Deselect All</button>
             </div>
             <div className="checkbox-grid">
               {industries.map((industry, index) => (
