@@ -61,9 +61,18 @@ class AppUpdater {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
     log.transports.file.resolvePath = () => path.join(app.getPath('desktop'), 'your-log.txt');
+    
+    autoUpdater.setFeedURL({
+        provider: "github",
+        repo: "wjElectronReactBoiler",
+        owner: "nullCKing",
+        token: process.env.GITHUB_TOKEN,
+    });
+
     this.setupListeners();
     autoUpdater.checkForUpdatesAndNotify();
   }
+
 
   setupListeners() {
     autoUpdater.on('checking-for-update', () => {
