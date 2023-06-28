@@ -17,6 +17,9 @@ import { resolveHtmlPath } from './util';
 // main.js (or whichever file you create the BrowserWindow in)
 import { selectDirectory } from '../../engine/scraper.js';
 
+log.transports.file.level = 'info';
+autoUpdater.logger = log;
+
 ipcMain.on('select-directory', (event, message, 
       stateCheckboxes, 
       industryCheckboxes, 
@@ -59,7 +62,44 @@ class AppUpdater {
     autoUpdater.logger = log;
     this.setupListeners();
     autoUpdater.checkForUpdatesAndNotify();
-    console.log("")
+    autoUpdater.on('checking-for-update', () => {
+      log.info('Checking for update...');
+    })
+    
+    autoUpdater.on('update-available', (info) => {
+      log.info('Update available.', info);
+      dialog.showMessageBox({
+        type: 'info',
+        buttons: ['Okay'],
+        title: 'Title',
+        message: 'Message text',
+      });
+    })
+    
+    autoUpdater.on('update-not-available', (info) => {
+      log.info('Update not available.', info);
+    })
+    
+    autoUpdater.on('error', (err) => {
+      log.error('Error in auto-updater. ' + err);
+    })
+    
+    autoUpdater.on('download-progress', (progressObj) => {
+      let log_message = "Download speed: " + progressObj.bytesPerSecond;
+      log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+      log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+      log.info(log_message);
+    })
+    
+    autoUpdater.on('update-downloaded', (info) => {
+      log.info('Update downloaded', info);
+      dialog.showMessageBox({
+        type: 'info',
+        buttons: ['Okay'],
+        title: 'Title',
+        message: 'Message text',
+      });
+    });
   }
 
   setupListeners() {
