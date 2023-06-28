@@ -9,10 +9,14 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, dialog, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, shell, ipcMain, net } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { resolveHtmlPath } from './util';
+
+const GITHUB_URL = 'https://github.com';
+const GITHUB_REPO = 'nullCKing/wjElectronReactBoiler';
+const feed = `${GITHUB_URL}/${GITHUB_REPO}/releases.atom`;
 
 // main.js (or whichever file you create the BrowserWindow in)
 import { selectDirectory } from '../../engine/scraper.js';
@@ -66,6 +70,7 @@ class AppUpdater {
         provider: "github",
         repo: "wjElectronReactBoiler",
         owner: "nullCKing",
+        private: true,
         token: process.env.GITHUB_TOKEN,
     });
 
