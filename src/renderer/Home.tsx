@@ -26,12 +26,21 @@ const Home: React.FC = () => {
   const [synergy, setSynergy] = useState(true);
 
 
-  const [minGrossRevenue, setMinGrossRevenue] = useState(0);
-  const [maxGrossRevenue, setMaxGrossRevenue] = useState(1000000);
-  const [minCashFlow, setMinCashFlow] = useState(0);
-  const [maxCashFlow, setMaxCashFlow] = useState(1000000);
-  const [minListingPrice, setMinListingPrice] = useState(0);
-  const [maxListingPrice, setMaxListingPrice] = useState(1000000);
+  const [minGrossRevenue, setMinGrossRevenue] = useState<number | null>(null);
+  const [maxGrossRevenue, setMaxGrossRevenue] = useState<number | null>(null);
+  const [minCashFlow, setMinCashFlow] = useState<number | null>(null);
+  const [maxCashFlow, setMaxCashFlow] = useState<number | null>(null);
+  const [minListingPrice, setMinListingPrice] = useState<number | null>(null);
+  const [maxListingPrice, setMaxListingPrice] = useState<number | null>(null);
+
+  const [isFocused, setIsFocused] = useState({
+    minGrossRevenue: false,
+    maxGrossRevenue: false,
+    minCashFlow: false,
+    maxCashFlow: false,
+    minListingPrice: false,
+    maxListingPrice: false
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -130,12 +139,12 @@ const Home: React.FC = () => {
         unlistedPrice={unlistedPrice} 
         sunbeltNetwork={sunbeltNetwork} 
         synergy={synergy} 
-        minGrossRevenue={minGrossRevenue} 
-        maxGrossRevenue={maxGrossRevenue} 
-        minCashFlow={minCashFlow} 
-        maxCashFlow={maxCashFlow} 
-        minListingPrice={minListingPrice} 
-        maxListingPrice={maxListingPrice}
+        minGrossRevenue={minGrossRevenue || 0} 
+        maxGrossRevenue={maxGrossRevenue || 1000000} 
+        minCashFlow={minCashFlow || 0} 
+        maxCashFlow={maxCashFlow || 1000000} 
+        minListingPrice={minListingPrice || 0} 
+        maxListingPrice={maxListingPrice || 1000000}
     />
 
     <div className="container-main" style={{ display: 'flex' }}>
@@ -149,34 +158,35 @@ const Home: React.FC = () => {
               type="number" 
               name="minGrossRevenue" 
               placeholder="Minimum" 
-              value={minGrossRevenue} 
-              onChange={e => setMinGrossRevenue(Number(e.target.value))} 
+              value={minGrossRevenue === null ? '' : minGrossRevenue} 
+              onChange={e => setMinGrossRevenue(e.target.value === '' ? null : Number(e.target.value))}
           />
           <input 
               type="number" 
               name="maxGrossRevenue" 
               placeholder="Maximum" 
-              value={maxGrossRevenue} 
-              onChange={e => setMaxGrossRevenue(Number(e.target.value))} 
+              value={maxGrossRevenue === null ? '' : maxGrossRevenue} 
+              onChange={e => setMaxGrossRevenue(e.target.value === '' ? null : Number(e.target.value))} 
           />      
         </div>
 
         <div className="entry" style={{flexDirection: 'column'}}>
-          <label>Cash Flow</label>
+          <label>Cash Flow | Sunbelt Only</label>
           <input 
               className="entry-spacing" 
               type="number" 
               name="minCashFlow" 
               placeholder="Minimum" 
-              value={minCashFlow} 
-              onChange={e => setMinCashFlow(Number(e.target.value))} 
+              value={minCashFlow === null ? '' : minCashFlow} 
+              onChange={e => setMinCashFlow(e.target.value === '' ? null : Number(e.target.value))} 
+            
           />
           <input 
               type="number" 
               name="maxCashFlow" 
               placeholder="Maximum" 
-              value={maxCashFlow} 
-              onChange={e => setMaxCashFlow(Number(e.target.value))} 
+              value={maxCashFlow === null ? '' : maxCashFlow} 
+              onChange={e => setMaxCashFlow(e.target.value === '' ? null : Number(e.target.value))} 
           />
         </div>
 
@@ -187,15 +197,16 @@ const Home: React.FC = () => {
               type="number" 
               name="minListingPrice" 
               placeholder="Minimum" 
-              value={minListingPrice} 
-              onChange={e => setMinListingPrice(Number(e.target.value))} 
+              value={minListingPrice === null ? '' : minListingPrice} 
+              onChange={e => setMinListingPrice(e.target.value === '' ? null : Number(e.target.value))} 
+            
           />
           <input 
               type="number" 
               name="maxListingPrice" 
               placeholder="Maximum" 
-              value={maxListingPrice} 
-              onChange={e => setMaxListingPrice(Number(e.target.value))} 
+              value={maxListingPrice === null ? '' : maxListingPrice} 
+              onChange={e => setMaxListingPrice(e.target.value === '' ? null : Number(e.target.value))}             
           />
         </div>
 
@@ -222,7 +233,7 @@ const Home: React.FC = () => {
           </div>
           <div className="checkbox-container">
             <input className="checkbox-input" type="checkbox" id="unlistedCF" name="unlistedParameter" checked={unlistedCF} onChange={() => setUnlistedCF(!unlistedCF)} />
-            <label className="checkbox-label" htmlFor="unlistedCF">Enable unlisted cash flow</label>
+            <label className="checkbox-label" htmlFor="unlistedCF">Enable unlisted cash flow | Sunbelt Only</label>
           </div>
           <div className="checkbox-container">
             <input className="checkbox-input" type="checkbox" id="unlistedLP" name="unlistedParameter" checked={unlistedLP} onChange={() => setUnlistedLP(!unlistedLP)} />
@@ -270,7 +281,7 @@ const Home: React.FC = () => {
           </div>
           <div className="industry-tile" style={{ ...secondtileStyle, display: 'flex', flexDirection: 'column' }}>
             <div className="button-container">
-              <button onClick={handleSelectAllIndustries}>Hi Mother, Select/Deselect All</button>
+              <button onClick={handleSelectAllIndustries}>Select/Deselect All</button>
             </div>
             <div className="checkbox-grid">
               {industries.map((industry, index) => (

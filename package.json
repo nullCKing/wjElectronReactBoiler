@@ -237,11 +237,10 @@
       "./assets/**"
     ],
     "publish": {
-      "provider": "github",
-      "owner": "nullCKing",
-      "repo": "wjElectronReactBoiler",
-      "private": true
-    }
+      "provider": "s3",
+      "bucket": "brkrg-search",
+      "region": "us-east-2"
+  }
   },
   "collective": {
     "url": "https://opencollective.com/electron-react-boilerplate-594"
