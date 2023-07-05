@@ -676,7 +676,7 @@ class VRScraper:
                 biz_dict['down_payment'] = int(re.sub('[a-zA-Z\W_]', '', amount_down))
                 biz_dict['industry'] = find_industry(biz_dict['name'])
                 biz_dict['ID'] = reference_id_a
-                biz_dict['grossrev'] = inwct)
+                biz_dict['grossrev'] = int(re.sub('[a-zA-Z\W_]', '', revenues))
             except:
                 continue
 
