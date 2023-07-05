@@ -62,7 +62,7 @@ class AppUpdater {
     autoUpdater.logger = log;
     log.transports.file.resolvePath = () => path.join(app.getPath('desktop'), 'your-log.txt');
     
-    autoUpdater.setFeedURL('https://s3.console.aws.amazon.com/s3/buckets/brkrg-search?region=us-east-1');
+    autoUpdater.setFeedURL('https://brkrg-search.s3.us-east-2.amazonaws.com');
 
     this.setupListeners();
     autoUpdater.checkForUpdatesAndNotify();

@@ -171,7 +171,7 @@ const Home: React.FC = () => {
         </div>
 
         <div className="entry" style={{flexDirection: 'column'}}>
-          <label>Cash Flow | Sunbelt Only</label>
+          <label>Cash Flow (Sunbelt Only)</label>
           <input 
               className="entry-spacing" 
               type="number" 
@@ -233,7 +233,7 @@ const Home: React.FC = () => {
           </div>
           <div className="checkbox-container">
             <input className="checkbox-input" type="checkbox" id="unlistedCF" name="unlistedParameter" checked={unlistedCF} onChange={() => setUnlistedCF(!unlistedCF)} />
-            <label className="checkbox-label" htmlFor="unlistedCF">Enable unlisted cash flow | Sunbelt Only</label>
+            <label className="checkbox-label" htmlFor="unlistedCF">Enable unlisted cash flow (Sunbelt Only)</label>
           </div>
           <div className="checkbox-container">
             <input className="checkbox-input" type="checkbox" id="unlistedLP" name="unlistedParameter" checked={unlistedLP} onChange={() => setUnlistedLP(!unlistedLP)} />
