@@ -10,7 +10,7 @@ function IntroScreen() {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate('/home'); // navigate to /home after 5.5 seconds
-    }, 15500); // time in milliseconds
+    }, 5000); // time in milliseconds
 
     // cleanup function to clear the timer when the component unmounts
     return () => clearTimeout(timer);
@@ -36,7 +36,7 @@ function IntroScreen() {
               animationData={spinnerAnimation}
               style={{ height: '30px', width: '30px' }}
             />
-            <span>Please hold while we sync your files...</span> {/* Add your text */}
+            <span>Loading content...</span> {/* Add your text */}
         </div>
     </div>
   );
