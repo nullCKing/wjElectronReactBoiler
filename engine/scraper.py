@@ -677,6 +677,7 @@ class VRScraper:
                 biz_dict['industry'] = find_industry(biz_dict['name'])
                 biz_dict['ID'] = reference_id_a
                 biz_dict['grossrev'] = int(re.sub('[a-zA-Z\W_]', '', revenues))
+                self.data.append(biz_dict)
             except:
                 continue
 
@@ -745,15 +746,18 @@ if __name__ == "__main__":
         maxCash_flow = json.loads(sys.argv[12])
         minListing_price = json.loads(sys.argv[13])
         maxListing_price = json.loads(sys.argv[14])
-        # check which scraper is on
+        
+        if checkAllFilesTime():
+            deleteAllFiles()
+            sunbelt_scraper.parallelDownloadAllHTML()
+            vrscraper.parallelDownloadAllHTML()
+            
+        #  check which scraper has been turned on
         if sunbelt_network == 1:
             sunbelt_scraper.scrapeSunbelt()
         if vr == 1:
             vrscraper.scrapeVR()
             
-        with open("output.txt", "w") as outfile:
-            outfile.write(f"{type(minGross_revenue)}, {type(maxGross_revenue)}, {type(minCash_flow)}, {type(maxCash_flow)}, {type(minListing_price)}, {type(maxListing_price)}")
-
         current_datetime = datetime.datetime.now()
         filename = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
         # create excel workbook and sheet
