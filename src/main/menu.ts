@@ -62,14 +62,14 @@ export default class MenuBuilder {
       label: 'Electron',
       submenu: [
         {
-          label: 'About ElectronReact',
+          label: 'About WJ Partners - Brokerage Search Tool',
           selector: 'orderFrontStandardAboutPanel:',
         },
         { type: 'separator' },
         { label: 'Services', submenu: [] },
         { type: 'separator' },
         {
-          label: 'Hide ElectronReact',
+          label: 'Hide WJ Partners - Brokerage Search Tool',
           accelerator: 'Command+H',
           selector: 'hide:',
         },

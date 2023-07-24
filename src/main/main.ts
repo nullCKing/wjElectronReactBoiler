@@ -9,13 +9,16 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, shell, ipcMain, net } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { resolveHtmlPath } from './util';
 
 // main.js (or whichever file you create the BrowserWindow in)
 import { selectDirectory } from '../../engine/scraper.js';
+
+log.transports.file.resolvePath = () => path.join(app.getPath('desktop'), 'your-log.txt');
+autoUpdater.logger = log;
 
 ipcMain.on('select-directory', (event, message, 
       stateCheckboxes, 
@@ -57,7 +60,44 @@ class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
+    log.transports.file.resolvePath = () => path.join(app.getPath('desktop'), 'your-log.txt');
+    
+    autoUpdater.setFeedURL('https://brkrg-search.s3.us-east-2.amazonaws.com');
+
+    this.setupListeners();
     autoUpdater.checkForUpdatesAndNotify();
+  }
+
+
+  setupListeners() {
+    autoUpdater.on('checking-for-update', () => {
+      log.info('Checking for update...');
+    });
+
+    autoUpdater.on('update-available', (info) => {
+      log.info('Update available.', info);
+      autoUpdater.downloadUpdate();
+    });
+
+    autoUpdater.on('update-not-available', (info) => {
+      log.info('Update not available.', info);
+    });
+
+    autoUpdater.on('error', (err) => {
+      log.error('Error in auto-updater. ' + err);
+    });
+
+    autoUpdater.on('download-progress', (progressObj) => {
+      let log_message = "Download speed: " + progressObj.bytesPerSecond;
+      log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+      log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+      log.info(log_message);
+    });
+
+    autoUpdater.on('update-downloaded', (info) => {
+      log.info('Update downloaded', info);
+      autoUpdater.quitAndInstall(false, true);
+    });
   }
 }
 

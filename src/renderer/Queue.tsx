@@ -36,10 +36,10 @@ type CarouselProps = {
     );
     
     const Carousel: React.FC<CarouselProps> = ({ children }) => {
-        const [active, setActive] = useState(2);
-        const count = React.Children.count(children);
-        
-        return (
+      const [active, setActive] = useState(0);  // Start at the first card
+      const count = React.Children.count(children);
+      
+      return (
           <div className='carousel-body'>
               <div className='carousel'>
               {active > 0 && <button className='nav left' onClick={() => setActive(i => i - 1)}><TiChevronLeftOutline/></button>}
@@ -70,25 +70,31 @@ type CarouselProps = {
         );
       };
 
-    const Queue = () => {
-      const [data, setData] = useState<CardProps[]>([]);
-    
-      useEffect(() => {
-        fetchData()
-          .then((fetchedData) => {
-            console.log(fetchedData);
-            setData(fetchedData.map(log => ({
-              date: log.date,
-              time: log.time,
-              stateQuantity: log.stateQuantity,
-              industryQuantity: log.industryQuantity,
-              VR: log.VR,
-              sunbelt: log.sunbelt,
-            })))
-          })
-          .catch((error) => console.error('Failed to fetch data: ', error));
-      }, []);
-        
+      const Queue = () => {
+        const [data, setData] = useState<CardProps[]>([]);
+      
+        useEffect(() => {
+          fetchData()
+            .then((fetchedData) => {
+              console.log(fetchedData);
+              // Sort fetchedData in descending order by date and time
+              fetchedData.sort((a, b) => {
+                const dateTimeA = new Date(a.date + ' ' + a.time);
+                const dateTimeB = new Date(b.date + ' ' + b.time);
+                return dateTimeB.getTime() - dateTimeA.getTime();
+              });
+              setData(fetchedData.map(log => ({
+                date: log.date,
+                time: log.time,
+                stateQuantity: log.stateQuantity,
+                industryQuantity: log.industryQuantity,
+                VR: log.VR,
+                sunbelt: log.sunbelt,
+              })))
+            })
+            .catch((error) => console.error('Failed to fetch data: ', error));
+        }, []);
+      
         return (
         <div className='parent-queue'>
             <div className='queue-body'>
