@@ -1,0 +1,7 @@
+beautifulsoup4
+requests
+uuid
+multiprocessing
+xlsxwriter
+fuzzywuzzy
+keybert

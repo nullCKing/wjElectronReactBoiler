@@ -13,11 +13,13 @@ import { app, BrowserWindow, dialog, shell, ipcMain, net } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { resolveHtmlPath } from './util';
+import { spawn } from 'child_process';
 
 // main.js (or whichever file you create the BrowserWindow in)
 import { selectDirectory } from '../../engine/scraper.js';
+import checkDependencies from '../../engine/downloader.js';
 
-log.transports.file.resolvePath = () => path.join(app.getPath('desktop'), 'your-log.txt');
+log.transports.file.resolvePath = () => path.join(app.getPath('appData'), 'brokerage-search-log.log');
 autoUpdater.logger = log;
 
 ipcMain.on('select-directory', (event, message, 
@@ -55,6 +57,8 @@ ipcMain.on('select-directory', (event, message,
     console.error(error);
   }
 });
+
+ipcMain.on('check-dependencies', checkDependencies);
 
 class AppUpdater {
   constructor() {
