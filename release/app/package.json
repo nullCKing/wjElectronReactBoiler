@@ -1,11 +1,11 @@
 {
   "name": "wj-electron-react-boiler",
-  "version": "4.8.1",
-  "description": "A foundation for scalable desktop apps",
+  "version": "4.8.8",
+  "description": "Brokerage Search Tool",
   "license": "MIT",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
+    "name": "WJ Partners, Christian King, Johnathan Wetmore",
+    "email": "christiank1inquiries@gmail.com",
     "url": "https://github.com/nullCKing/wjElectronReactBoiler"
   },
   "main": "./dist/main/main.js",

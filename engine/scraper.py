@@ -465,6 +465,7 @@ class sunbeltScraper:
     def __init__(self):
         self.data = []
         self.pages = []
+        
 
     # gets all pages and appends them to list that is returned
     def getAllSunbeltPages(self):
@@ -475,7 +476,7 @@ class sunbeltScraper:
 
     # downloads all html to a directory
     def downloadAllSunbeltHTML(self, page):
-        self.makeDirectory()
+        #self.makeDirectory()
         headers = {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET',
@@ -601,7 +602,7 @@ class VRScraper:
         self.pages = all_pages
     
     def downloadVRBusinessHTML(self, page):
-        self.makeDirectory()
+        #self.makeDirectory()
         headers = {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET',
@@ -727,6 +728,7 @@ def deleteAllFiles():
         return
 
 if __name__ == "__main__":
+    print("Interlinked")
     vrscraper = VRScraper()
     sunbelt_scraper = sunbeltScraper()
     if len(sys.argv) >= 14:
@@ -748,9 +750,11 @@ if __name__ == "__main__":
         maxListing_price = json.loads(sys.argv[14])
         
         if checkAllFilesTime():
+            print("DOWNLOAD_START")
             deleteAllFiles()
             sunbelt_scraper.parallelDownloadAllHTML()
             vrscraper.parallelDownloadAllHTML()
+            print("DOWNLOAD_FINISH")
             
         #  check which scraper has been turned on
         if sunbelt_network == 1:

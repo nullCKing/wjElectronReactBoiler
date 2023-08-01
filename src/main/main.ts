@@ -17,6 +17,7 @@ import { spawn } from 'child_process';
 import * as fs from 'fs';
 const os = require('os');
 const { v4: uuidv4 } = require('uuid');
+import { machineIdSync } from 'node-machine-id';
 
 // main.js (or whichever file you create the BrowserWindow in)
 import { selectDirectory } from '../../engine/scraper.js';
@@ -26,39 +27,36 @@ log.transports.file.resolvePath = () => path.join(app.getPath('appData'), 'broke
 autoUpdater.logger = log;
 
 ipcMain.on('select-directory', (event, message, 
-      stateCheckboxes, 
-      industryCheckboxes, 
-      unlistedIndustry, 
-      unlistedLocation, 
-      unlistedPrice, 
-      sunbeltNetwork, 
-      synergy,       
-      minGrossRevenue,
-      maxGrossRevenue,
-      minCashFlow,
-      maxCashFlow,
-      minListingPrice,
-      maxListingPrice) => {
-  try {
-    // Pass stateCheckboxes, industryCheckboxes, and additional parameters
-    const result = selectDirectory(stateCheckboxes, 
-      industryCheckboxes, 
-      unlistedIndustry, 
-      unlistedLocation, 
-      unlistedPrice, 
-      sunbeltNetwork, 
-      synergy,       
-      minGrossRevenue,
-      maxGrossRevenue,
-      minCashFlow,
-      maxCashFlow,
-      minListingPrice,
-      maxListingPrice);
-    // Send the result back to the renderer process
-    event.reply('select-directory-reply', result);
-  } catch (error) {
-    console.error(error);
-  }
+  stateCheckboxes, 
+  industryCheckboxes, 
+  unlistedIndustry, 
+  unlistedLocation, 
+  unlistedPrice, 
+  sunbeltNetwork, 
+  synergy,       
+  minGrossRevenue,
+  maxGrossRevenue,
+  minCashFlow,
+  maxCashFlow,
+  minListingPrice,
+  maxListingPrice) => {
+try {
+selectDirectory(mainWindow, event, stateCheckboxes, 
+  industryCheckboxes, 
+  unlistedIndustry, 
+  unlistedLocation, 
+  unlistedPrice, 
+  sunbeltNetwork, 
+  synergy,       
+  minGrossRevenue,
+  maxGrossRevenue,
+  minCashFlow,
+  maxCashFlow,
+  minListingPrice,
+  maxListingPrice);
+} catch (error) {
+console.error(error);
+}
 });
 
 ipcMain.on('check-dependencies', checkDependencies);
@@ -78,17 +76,18 @@ ipcMain.on('read-log', (event, logPath) => {
 });
 
 ipcMain.on('get-hwid', (event) => {
-  const hwid = os.hostname() + uuidv4();
+  // Get the machine ID
+  const hwid = machineIdSync();
 
   // Send the hwid back to the renderer process
-  event.sender.send('get-hwid-response', hwid);
+  event.reply('get-hwid-response', hwid);
 });
 
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
-    log.transports.file.resolvePath = () => path.join(app.getPath('desktop'), 'your-log.txt');
+    log.transports.file.resolvePath = () => path.join(app.getAppPath(), 'update-log.txt');
     
     autoUpdater.setFeedURL('https://brkrg-search.s3.us-east-2.amazonaws.com');
 
@@ -242,4 +241,6 @@ app
   })
   .catch(console.log);
 
+app.name = 'WJ Partners'
 
+app.setAppUserModelId("WJ Partners");
