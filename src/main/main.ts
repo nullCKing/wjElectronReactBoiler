@@ -14,6 +14,9 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { resolveHtmlPath } from './util';
 import { spawn } from 'child_process';
+import * as fs from 'fs';
+const os = require('os');
+const { v4: uuidv4 } = require('uuid');
 
 // main.js (or whichever file you create the BrowserWindow in)
 import { selectDirectory } from '../../engine/scraper.js';
@@ -59,6 +62,27 @@ ipcMain.on('select-directory', (event, message,
 });
 
 ipcMain.on('check-dependencies', checkDependencies);
+
+ipcMain.on('get-log-path', (event) => {
+  event.reply('log-path', path.join(app.getPath('appData'), 'downloader-log.txt'));
+});
+
+ipcMain.on('read-log', (event, logPath) => {
+  fs.readFile(logPath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Failed to read log file:', err);
+      return;
+    }
+    event.reply('log-content', data);
+  });
+});
+
+ipcMain.on('get-hwid', (event) => {
+  const hwid = os.hostname() + uuidv4();
+
+  // Send the hwid back to the renderer process
+  event.sender.send('get-hwid-response', hwid);
+});
 
 class AppUpdater {
   constructor() {

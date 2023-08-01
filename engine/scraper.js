@@ -1,6 +1,7 @@
 const { spawn } = require('child_process');
 var path = require("path");
 const { dialog } = require('electron');
+var { PythonShell } = require('python-shell');
 
 function selectDirectory(stateCheckboxes, 
     industryCheckboxes, 

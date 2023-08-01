@@ -1,18 +1,34 @@
 var { PythonShell } = require('python-shell');
 var path = require("path");
-const { dialog } = require('electron');
+const { app } = require('electron');
+var fs = require("fs");
 
 function checkDependencies(event) {
     let scriptPath = path.join(__dirname, 'downloader.py');
-    let pyshell = new PythonShell(scriptPath);
+    let logPath = path.join(app.getPath('appData'), 'downloader-log.txt');
 
-    pyshell.on('message', function (message) {
-        event.reply('check-dependencies-reply', message);
-    });
+    function logToFile(message) {
+        fs.appendFileSync(logPath, message + '\n');
+    }
 
-    pyshell.end(function (err) {
+    logToFile("Attempting to check dependencies...");
+
+    if (!fs.existsSync(scriptPath)) {
+        let errorMsg = 'Python script not found at path:' + scriptPath;
+        console.error(errorMsg);
+        logToFile(errorMsg);
+        return;
+    }
+
+    PythonShell.run(scriptPath, function (err) {
         if (err) {
-            console.error(err);
+            let errorMsg = 'Python shell error: ' + err;
+            console.error(errorMsg);
+            logToFile(errorMsg);
+        }
+        else {
+            console.log("Dependencies checked successfully.");
+            logToFile("Dependencies checked successfully.");
         }
     });
 }

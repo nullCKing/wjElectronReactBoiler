@@ -1,6 +1,8 @@
 import firebase, { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { getAnalytics } from "firebase/analytics";
+import os from 'os';
+import { v4 as uuidv4 } from 'uuid';
 import "firebase/firestore";
 
 const firebaseConfig = {
@@ -19,6 +21,40 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 // Initialize Firestore
 const db = getFirestore(firebaseApp);
+
+// Generate a hardware-based unique identifier
+async function storeHwid(hwid: string) {
+  // Document reference
+  const docRef = doc(db, 'dependencies', 'lVYlicTK5qMWCdr04Vjz'); // Update the path as necessary
+
+  try {
+    // Store HWID
+    await updateDoc(docRef, {
+      uuid: arrayUnion(hwid),
+    });
+    console.log("HWID successfully stored!");
+  } catch (error) {
+    console.error("Error storing HWID: ", error);
+  }
+}
+
+async function fetchHwids(hwid: string) {
+  try {
+    console.log('Attempting to fetch HWIDs');
+    const docRef = doc(db, 'dependencies', 'lVYlicTK5qMWCdr04Vjz');
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log('Document found, data:', docSnap.data());
+      return docSnap.data().uuid || [];
+    } else {
+      console.log('No such document!');
+      return [];
+    }
+  } catch (error) {
+    console.error("Error getting document: ", error);
+  }
+};
 
 async function fetchData() {
   try {
@@ -71,4 +107,4 @@ async function appendData(
   }
 }
 
-export { firebaseApp, db, fetchData, appendData };
+export { firebaseApp, db, fetchData, appendData, storeHwid, fetchHwids };
